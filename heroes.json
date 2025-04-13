@@ -17,6 +17,18 @@
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"
+    },
+    {
+      "name": "Супермен",
+      "description": "Летать, видеть сквозь стены",
+      "element": "fire",
+      "id": "d1adf3fe-802e-4843-ad50-2ac99effdd6b"
+    },
+    {
+      "name": "Ящер",
+      "description": "Вижу в темноте",
+      "element": "water",
+      "id": "131e6fc0-ae4e-4749-85d1-9dd87414aecd"
     }
   ],
   "filters": [

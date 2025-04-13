@@ -6,7 +6,7 @@ import {
   heroesFetching,
   heroesFetched,
   heroesFetchingError,
-  heroesDelete,
+  heroDelete,
 } from "../../actions";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
@@ -40,7 +40,7 @@ const HeroesList = () => {
   const onDelete = (id) => {
     // dispatch(heroesDelete(id));
     request(`http://localhost:3001/heroes/${id}`, "DELETE")
-      .then((data) => dispatch(heroesDelete(id)))
+      .then((data) => dispatch(heroDelete(id)))
       .catch(() => dispatch(heroesFetchingError));
   };
 
