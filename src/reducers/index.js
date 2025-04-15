@@ -35,6 +35,12 @@ const reducer = (state = initialState, action) => {
         heroes: [...state.heroes, action.payload],
       };
 
+    case "GET_FILTERS":
+      return {
+        ...state,
+        filters: action.payload,
+      };
+
     default:
       return state;
   }

@@ -7,14 +7,28 @@
 // Дополнительно:
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
+//ВЫПОЛНЕНО
+
 import { v4 as uuidv4 } from "uuid";
 import { useHttp } from "../../hooks/http.hook";
-import { heroAdd, heroesFetchingError } from "../../actions/index.js";
-import { useDispatch } from "react-redux";
+import {
+  heroAdd,
+  heroesFetchingError,
+  getFilters,
+} from "../../actions/index.js";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const HeroesAddForm = () => {
+  const { filters } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { request } = useHttp();
+
+  useEffect(() => {
+    request("http://localhost:3001/filters")
+      .then((data) => dispatch(getFilters(data)))
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,9 +37,25 @@ const HeroesAddForm = () => {
     data.id = uuidv4();
 
     request(`http://localhost:3001/heroes/`, "POST", JSON.stringify(data))
-      .then((data) => dispatch(heroAdd(data)))
+      .then((data) => {
+        dispatch(heroAdd(data));
+        e.target.reset();
+      })
       .catch(() => heroesFetchingError());
   };
+
+  const renderFilters = (filters) => {
+    return filters.map((item) => {
+      // if (item.name === "all") return;
+      return (
+        <option key={item.id} value={item.name}>
+          {item.label}
+        </option>
+      );
+    });
+  };
+
+  const elements = renderFilters(filters);
 
   return (
     <form className="border p-4 shadow-lg rounded" onSubmit={handleSubmit}>
@@ -62,11 +92,10 @@ const HeroesAddForm = () => {
           Выбрать элемент героя
         </label>
         <select required className="form-select" id="element" name="element">
-          <option>Я владею элементом...</option>
-          <option value="fire">Огонь</option>
-          <option value="water">Вода</option>
-          <option value="wind">Ветер</option>
-          <option value="earth">Земля</option>
+          <option value="" hidden>
+            Я владею элементом...
+          </option>
+          {elements}
         </select>
       </div>
 

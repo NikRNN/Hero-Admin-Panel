@@ -19,23 +19,43 @@
       "element": "water"
     },
     {
-      "name": "Супермен",
-      "description": "Летать, видеть сквозь стены",
+      "name": "Ящер",
+      "description": "Ползать по стенам",
       "element": "fire",
-      "id": "d1adf3fe-802e-4843-ad50-2ac99effdd6b"
+      "id": "2e8e4eb0-814a-44d2-bcc6-6a5799833051"
     },
     {
-      "name": "Ящер",
-      "description": "Вижу в темноте",
-      "element": "water",
-      "id": "131e6fc0-ae4e-4749-85d1-9dd87414aecd"
+      "name": "Супермен",
+      "description": "Летать",
+      "element": "all",
+      "id": "e7cf1481-e862-430a-b3e4-4166e0946690"
     }
   ],
   "filters": [
-    "all",
-    "fire",
-    "water",
-    "wind",
-    "earth"
+    {
+      "name": "all",
+      "label": "Все",
+      "className": "btn btn-outline-dark active"
+    },
+    {
+      "name": "fire",
+      "label": "Огонь",
+      "className": "btn btn-danger"
+    },
+    {
+      "name": "water",
+      "label": "Вода",
+      "className": "btn btn-primary"
+    },
+    {
+      "name": "wind",
+      "label": "Ветер",
+      "className": "btn btn-success"
+    },
+    {
+      "name": "earth",
+      "label": "Земля",
+      "className": "btn btn-secondary"
+    }
   ]
 }
