@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
 const HeroesAddForm = () => {
-  const { filters } = useSelector((state) => state);
+  const filters = useSelector((state) => state.filters);
   const dispatch = useDispatch();
   const { request } = useHttp();
 
@@ -46,6 +46,7 @@ const HeroesAddForm = () => {
 
   const renderFilters = (filters) => {
     return filters.map((item) => {
+      if (item.name === "all") return;
       return (
         <option key={item.name} value={item.name}>
           {item.label}
