@@ -18,7 +18,9 @@ import Spinner from "../spinner/Spinner";
 //ВЫПОЛНЕНО
 
 const HeroesList = () => {
-  const { heroes, heroesLoadingStatus } = useSelector((state) => state);
+  const { heroes, heroesLoadingStatus, activeFilter } = useSelector(
+    (state) => state
+  );
   const dispatch = useDispatch();
   const { request } = useHttp();
 
@@ -29,7 +31,7 @@ const HeroesList = () => {
       .catch(() => dispatch(heroesFetchingError()));
 
     // eslint-disable-next-line
-  }, []);
+  }, [activeFilter]);
 
   if (heroesLoadingStatus === "loading") {
     return <Spinner />;
@@ -38,7 +40,6 @@ const HeroesList = () => {
   }
 
   const onDelete = (id) => {
-    // dispatch(heroesDelete(id));
     request(`http://localhost:3001/heroes/${id}`, "DELETE")
       .then((data) => dispatch(heroDelete(id)))
       .catch(() => dispatch(heroesFetchingError));

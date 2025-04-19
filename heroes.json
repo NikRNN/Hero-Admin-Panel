@@ -35,7 +35,7 @@
     {
       "name": "all",
       "label": "Все",
-      "className": "btn btn-outline-dark active"
+      "className": "btn btn-outline-dark"
     },
     {
       "name": "fire",

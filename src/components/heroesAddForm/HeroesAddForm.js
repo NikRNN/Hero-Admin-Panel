@@ -46,9 +46,8 @@ const HeroesAddForm = () => {
 
   const renderFilters = (filters) => {
     return filters.map((item) => {
-      // if (item.name === "all") return;
       return (
-        <option key={item.id} value={item.name}>
+        <option key={item.name} value={item.name}>
           {item.label}
         </option>
       );

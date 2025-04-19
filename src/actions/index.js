@@ -37,3 +37,10 @@ export const getFilters = (filters) => {
     payload: filters,
   };
 };
+
+export const changeActiveFilter = (filter) => {
+  return {
+    type: "CHANGE_ACTIVE_FILTER",
+    payload: filter,
+  };
+};
