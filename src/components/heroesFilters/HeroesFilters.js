@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import { getFilters, changeActiveFilter } from "../../actions";
 
 const HeroesFilters = () => {
-  const filters = useSelector((state) => state.filters);
-  const activeFilter = useSelector((state) => state.activeFilter);
+  const filters = useSelector((state) => state.filters.filters);
+  const activeFilter = useSelector((state) => state.filters.activeFilter);
   const { request } = useHttp();
   const dispatch = useDispatch();
 
