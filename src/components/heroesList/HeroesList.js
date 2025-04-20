@@ -1,5 +1,5 @@
 import { useHttp } from "../../hooks/http.hook";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -10,12 +10,6 @@ import {
 } from "../../actions";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
-
-// Задача для этого компонента:
-// При клике на "крестик" идет удаление персонажа из общего состояния
-// Усложненная задача:
-// Удаление идет и с json файла при помощи метода DELETE
-//ВЫПОЛНЕНО
 
 const HeroesList = () => {
   const heroes = useSelector((state) => state.heroes);
@@ -30,21 +24,22 @@ const HeroesList = () => {
     request("http://localhost:3001/heroes")
       .then((data) => dispatch(heroesFetched(data)))
       .catch(() => dispatch(heroesFetchingError()));
-
-    // eslint-disable-next-line
   }, [activeFilter]);
+
+  const onDelete = useCallback(
+    (id) => {
+      request(`http://localhost:3001/heroes/${id}`, "DELETE")
+        .then((res) => dispatch(heroDelete(id)))
+        .catch((err) => console.log(err));
+    },
+    [request]
+  );
 
   if (heroesLoadingStatus === "loading") {
     return <Spinner />;
   } else if (heroesLoadingStatus === "error") {
     return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
   }
-
-  const onDelete = (id) => {
-    request(`http://localhost:3001/heroes/${id}`, "DELETE")
-      .then((data) => dispatch(heroDelete(id)))
-      .catch(() => dispatch(heroesFetchingError));
-  };
 
   const renderHeroesList = (arr) => {
     if (arr.length === 0) {

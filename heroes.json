@@ -17,18 +17,6 @@
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"
-    },
-    {
-      "name": "Ящер",
-      "description": "Ползать по стенам",
-      "element": "fire",
-      "id": "2e8e4eb0-814a-44d2-bcc6-6a5799833051"
-    },
-    {
-      "name": "Супермен",
-      "description": "Летать",
-      "element": "all",
-      "id": "e7cf1481-e862-430a-b3e4-4166e0946690"
     }
   ],
   "filters": [
