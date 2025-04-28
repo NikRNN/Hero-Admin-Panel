@@ -3,7 +3,7 @@ import { useHttp } from "../../hooks/http.hook";
 import {
   heroAdd,
   heroesFetchingError,
-  getFilters,
+  fetchFilters,
 } from "../../actions/index.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -14,9 +14,10 @@ const HeroesAddForm = () => {
   const { request } = useHttp();
 
   useEffect(() => {
-    request("http://localhost:3001/filters")
-      .then((data) => dispatch(getFilters(data)))
-      .catch((err) => console.log(err));
+    dispatch(fetchFilters(request));
+    // request("http://localhost:3001/filters")
+    //   .then((data) => dispatch(filtersFetched(data)))
+    //   .catch(() => filtersFetchingError());
   }, []);
 
   const handleSubmit = (e) => {

@@ -37,9 +37,7 @@ const HeroesListItem = ({ name, description, element, id, onDelete }) => {
           type="button"
           className="btn-close btn-close"
           aria-label="Close"
-          onClick={() => {
-            onDelete(id);
-          }}
+          onClick={onDelete}
         ></button>
       </span>
     </li>

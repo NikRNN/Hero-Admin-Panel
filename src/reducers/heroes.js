@@ -1,43 +1,75 @@
+import { createReducer } from "@reduxjs/toolkit";
+
+import {
+  heroAdd,
+  heroDelete,
+  heroesFetched,
+  heroesFetching,
+  heroesFetchingError,
+} from "../actions";
+
 const initialState = {
   heroes: [],
   heroesLoadingStatus: "idle",
 };
 
-const heroes = (state = initialState, action) => {
-  switch (action.type) {
-    case "HEROES_FETCHING":
-      return {
-        ...state,
-        heroesLoadingStatus: "loading",
-      };
+const heroes = createReducer(initialState, (builder) => {
+  //создание редьюсера через createReducer, immer соблюдает иммутабельность за меня
+  builder
+    .addCase(heroesFetching, (state) => {
+      state.heroesLoadingStatus = "loading";
+    })
+    .addCase(heroesFetched, (state, action) => {
+      state.heroes = action.payload;
+      state.heroesLoadingStatus = "idle";
+    })
+    .addCase(heroesFetchingError, (state) => {
+      state.heroesLoadingStatus = "error";
+    })
+    .addCase(heroAdd, (state, action) => {
+      state.heroes.push(action.payload);
+    })
+    .addCase(heroDelete, (state, action) => {
+      state.heroes = state.heroes.filter((item) => item.id !== action.payload);
+    })
+    .addDefaultCase(() => {});
+});
 
-    case "HEROES_FETCHED":
-      return {
-        ...state,
-        heroes: action.payload,
-        heroesLoadingStatus: "idle",
-      };
-    case "HEROES_FETCHING_ERROR":
-      return {
-        ...state,
-        heroesLoadingStatus: "error",
-      };
+// const heroes = (state = initialState, action) => { //классический редьюсер, соблюдаем иммутабельность
+//   switch (action.type) {
+//     case "HEROES_FETCHING":
+//       return {
+//         ...state,
+//         heroesLoadingStatus: "loading",
+//       };
 
-    case "HEROES_DELETE":
-      return {
-        ...state,
-        heroes: state.heroes.filter((hero) => hero.id !== action.payload),
-      };
+//     case "HEROES_FETCHED":
+//       return {
+//         ...state,
+//         heroes: action.payload,
+//         heroesLoadingStatus: "idle",
+//       };
+//     case "HEROES_FETCHING_ERROR":
+//       return {
+//         ...state,
+//         heroesLoadingStatus: "error",
+//       };
 
-    case "HERO_ADD":
-      return {
-        ...state,
-        heroes: [...state.heroes, action.payload],
-      };
+//     case "HEROES_DELETE":
+//       return {
+//         ...state,
+//         heroes: state.heroes.filter((hero) => hero.id !== action.payload),
+//       };
 
-    default:
-      return state;
-  }
-};
+//     case "HERO_ADD":
+//       return {
+//         ...state,
+//         heroes: [...state.heroes, action.payload],
+//       };
+
+//     default:
+//       return state;
+//   }
+// };
 
 export default heroes;

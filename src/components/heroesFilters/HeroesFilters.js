@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { useHttp } from "../../hooks/http.hook";
 import { useEffect } from "react";
-import { getFilters, changeActiveFilter } from "../../actions";
+import { fetchFilters, changeActiveFilter } from "../../actions";
 
 const HeroesFilters = () => {
   const filters = useSelector((state) => state.filters.filters);
@@ -11,9 +11,10 @@ const HeroesFilters = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    request("http://localhost:3001/filters")
-      .then((data) => dispatch(getFilters(data)))
-      .catch((err) => console.log(err));
+    dispatch(fetchFilters(request));
+    // request("http://localhost:3001/filters")
+    //   .then((data) => dispatch(filtersFetched(data)))
+    //   .catch(() => dispatch(filtersFetchingError()));
   }, []);
 
   const renderFilters = (arr) => {
