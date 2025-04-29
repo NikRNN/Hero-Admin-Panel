@@ -2,7 +2,8 @@ import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { useHttp } from "../../hooks/http.hook";
 import { useEffect } from "react";
-import { fetchFilters, changeActiveFilter } from "../../actions";
+import { changeActiveFilter } from "../heroesFilters/filtersSlice";
+import { fetchFilters } from "../../actions";
 
 const HeroesFilters = () => {
   const filters = useSelector((state) => state.filters.filters);

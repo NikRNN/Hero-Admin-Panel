@@ -1,10 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { useHttp } from "../../hooks/http.hook";
-import {
-  heroAdd,
-  heroesFetchingError,
-  fetchFilters,
-} from "../../actions/index.js";
+import { heroAdd, heroesFetchingError } from "../heroesList/heroesSlice";
+import { fetchFilters } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
