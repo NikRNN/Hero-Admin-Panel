@@ -2,12 +2,13 @@ import { v4 as uuidv4 } from "uuid";
 import { useHttp } from "../../hooks/http.hook";
 import { heroAdd, heroesFetchingError } from "../heroesList/heroesSlice";
 import { fetchFilters } from "../heroesFilters/filtersSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { selectAll } from "../heroesFilters/filtersSlice";
+import store from "../../store";
 
 const HeroesAddForm = () => {
-  const filters = useSelector(selectAll);
+  const filters = selectAll(store.getState());
   const dispatch = useDispatch();
   const { request } = useHttp();
 
