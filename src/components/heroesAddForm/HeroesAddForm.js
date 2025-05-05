@@ -1,19 +1,20 @@
 import { v4 as uuidv4 } from "uuid";
-import { useHttp } from "../../hooks/http.hook";
-import { heroAdd, heroesFetchingError } from "../heroesList/heroesSlice";
+
 import { fetchFilters } from "../heroesFilters/filtersSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { selectAll } from "../heroesFilters/filtersSlice";
-import store from "../../store";
+import { useCreateHeroMutation } from "../../api/apiSlice";
 
 const HeroesAddForm = () => {
-  const filters = selectAll(store.getState());
+  const [createHero, { isLoading }] = useCreateHeroMutation();
+
+  const filters = useSelector(selectAll);
+
   const dispatch = useDispatch();
-  const { request } = useHttp();
 
   useEffect(() => {
-    dispatch(fetchFilters(request));
+    dispatch(fetchFilters());
   }, []);
 
   const handleSubmit = (e) => {
@@ -22,12 +23,14 @@ const HeroesAddForm = () => {
     const data = Object.fromEntries(formData.entries());
     data.id = uuidv4();
 
-    request(`http://localhost:3001/heroes/`, "POST", JSON.stringify(data))
-      .then((data) => {
-        dispatch(heroAdd(data));
-        e.target.reset();
-      })
-      .catch(() => heroesFetchingError());
+    // request(`http://localhost:3001/heroes/`, "POST", JSON.stringify(data)) //вместо этого функционала теперь запросы через apiSlice
+    //   .then((data) => {
+    //     dispatch(heroAdd(data));
+    //     e.target.reset();
+    //   })
+    //   .catch(() => heroesFetchingError());
+    createHero(data).unwrap();
+    e.target.reset();
   };
 
   const renderFilters = (filters) => {

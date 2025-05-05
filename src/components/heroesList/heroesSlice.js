@@ -1,3 +1,5 @@
+//этот файл не используется (только в вызове configureStore), весь функционал заменил собой createApi
+
 import {
   createAsyncThunk,
   createSlice,

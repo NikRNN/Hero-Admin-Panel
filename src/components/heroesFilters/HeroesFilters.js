@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import { changeActiveFilter } from "../heroesFilters/filtersSlice";
 import { fetchFilters } from "../heroesFilters/filtersSlice";
 import { selectAll } from "../heroesFilters/filtersSlice";
-import store from "../../store";
 
 const HeroesFilters = () => {
-  const filters = selectAll(store.getState());
+  const filters = useSelector(selectAll);
   const activeFilter = useSelector((state) => state.filters.activeFilter);
   const dispatch = useDispatch();
 

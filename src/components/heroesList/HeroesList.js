@@ -1,40 +1,46 @@
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useMemo } from "react";
+import { useSelector } from "react-redux";
 
-import { useHttp } from "../../hooks/http.hook";
-import { heroDelete, fetchHeroes, filteredHeroes } from "./heroesSlice";
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
+import { useGetHeroesQuery, useDeleteHeroMutation } from "../../api/apiSlice";
 import "./heroesList.scss";
 
 const HeroesList = () => {
-  const heroes = useSelector(filteredHeroes);
-  const heroesLoadingStatus = useSelector(
-    (state) => state.heroes.heroesLoadingStatus
-  );
-  const dispatch = useDispatch();
-  const { request } = useHttp();
+  const {
+    data: heroes = [], //сами данные, которые получили с сервера; задали значение по умолчанию на случай, если данные будут долго грузится, а код пойдет выполняться ниже
+    isFetching, //тру, когда мы в последующем обращаемся к серверу
+    isLoading, //тру, когда мы в ПЕРВЫЙ раз обращаемся к серверу
+    isSuccess, //тру, когда данные с успехом загрузились
+    isError, //тру, когда ошибка при общении с сервером
+    error, // сама ошибка
+  } = useGetHeroesQuery();
 
-  useEffect(() => {
-    dispatch(fetchHeroes());
-    // request("http://localhost:3001/heroes")
-    //   .then((data) => dispatch(heroesFetched(data)))
-    //   .catch(() => dispatch(heroesFetchingError()));
+  const [deleteHero] = useDeleteHeroMutation();
+
+  const activeFilter = useSelector((state) => state.filters.activeFilter);
+  const heroesFiltered = useMemo(() => {
+    const heroesFiltered = heroes.slice();
+    if (activeFilter === "all") {
+      return heroesFiltered;
+    } else {
+      return heroesFiltered.filter((item) => item.element === activeFilter);
+    }
+  }, [heroes, activeFilter]);
+
+  const onDelete = useCallback((id) => {
+    // request(`http://localhost:3001/heroes/${id}`, "DELETE")
+    //   .then(() => dispatch(heroDelete(id)))
+    //   .catch((err) => console.log(err));
+    deleteHero(id);
   }, []);
 
-  const onDelete = useCallback(
-    (id) => {
-      request(`http://localhost:3001/heroes/${id}`, "DELETE")
-        .then(() => dispatch(heroDelete(id)))
-        .catch((err) => console.log(err));
-    },
-    [request]
-  );
-
-  if (heroesLoadingStatus === "loading") {
+  if (isLoading) {
+    //из нашего хука
     return <Spinner />;
-  } else if (heroesLoadingStatus === "error") {
+  } else if (isError) {
+    // из нашего хука
     return <h5 className="text-center mt-5">Ошибка загрузки</h5>;
   }
 
@@ -56,7 +62,7 @@ const HeroesList = () => {
     });
   };
 
-  const elements = renderHeroesList(heroes);
+  const elements = renderHeroesList(heroesFiltered);
   return <TransitionGroup component="ul">{elements}</TransitionGroup>;
 };
 
