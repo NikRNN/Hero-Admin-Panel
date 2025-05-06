@@ -16,7 +16,7 @@ export const useHttp = () => {
 
       const data = await response.json();
 
-      if (url === "http://localhost:3001/filters") {
+      if (url.endsWith("/filters")) {
         return data.map((item) => ({ ...item, id: uuidv4() }));
       }
 

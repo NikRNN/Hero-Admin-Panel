@@ -21,7 +21,7 @@ const initialState = heroesAdapter.getInitialState({
 
 export const fetchHeroes = createAsyncThunk("heroes/fetchHeroes", async () => {
   const { request } = useHttp();
-  return await request("http://localhost:3001/heroes");
+  return await request("/api/heroes");
 });
 
 const heroesSlice = createSlice({

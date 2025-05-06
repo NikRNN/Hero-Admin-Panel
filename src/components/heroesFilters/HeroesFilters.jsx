@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { changeActiveFilter } from "../heroesFilters/filtersSlice";
-import { fetchFilters } from "../heroesFilters/filtersSlice";
-import { selectAll } from "../heroesFilters/filtersSlice";
+import { changeActiveFilter } from "./filtersSlice";
+import { fetchFilters } from "./filtersSlice";
+import { selectAll } from "./filtersSlice";
 
 const HeroesFilters = () => {
   const filters = useSelector(selectAll);
